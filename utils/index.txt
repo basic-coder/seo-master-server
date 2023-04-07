@@ -1,0 +1,115 @@
+const axios = require("axios");
+const url = "https://www.ceat.com/sitemap.xml";
+const xml2js = require("xml2js");
+const allUrls = [];
+const cheerio = require("cheerio");
+const path = require("path");
+
+const getH1 = async (url) => {
+  let finalH1List = [];
+  for (let i = 0; i < url.length; i++) {
+    const extension = path.extname(url[i]);
+    if (extension == ".html") {
+      await axios
+        .get(url[i])
+        .then((response) => {
+          const $ = cheerio.load(response.data);
+          const numH1Tags = $("h1").length;
+
+          finalH1List.push({
+            website: url[i],
+            h1Count: numH1Tags,
+          });
+
+          //console.log(numH1Tags);
+          //console.log(`The website ${url[i]} has ${numH1Tags} h1 tags`);
+        })
+        .catch((error) => {
+          console.error(`Error fetching website ${url[i]}: ${error}`);
+        });
+    }
+  }
+  console.log(finalH1List);
+};
+
+const findCanonicalTags = async (url) => {
+  let finalCanonicalList = [];
+  for (let i = 0; i < url.length; i++) {
+    const extension = path.extname(url[i]);
+    if (extension == ".html") {
+      await axios
+        .get(url[i])
+        .then((response) => {
+          const $ = cheerio.load(response.data);
+          const numCanonicals = $('link[rel="canonical"]').length;
+
+          finalCanonicalList.push({
+            website: url[i],
+            h1Count: numCanonicals,
+          });
+
+          // console.log(
+          //   `The website ${url[i]} has ${numCanonicals} canonical tags`
+          // );
+          console.log(i);
+
+          if (numCanonicals != 1) {
+            console.log(
+              `The website ${url[i]} has ${numCanonicals} canonical tags`
+            );
+          }
+        })
+        .catch((error) => {
+          console.error(`Error fetching website ${url[i]}: ${error}`);
+        });
+    }
+  }
+  console.log(finalCanonicalList);
+};
+
+const findBrokenLinks = async (links) => {
+  const finalBrokenList = [];
+  for (let i = 0; i < links.length; i++) {
+    let url = links[i];
+
+    try {
+      let response = await axios.head(url);
+
+      if (response.status < 400) {
+        finalBrokenList.push({
+          website: url[i],
+          value: "success",
+        });
+        // console.log(`success link: ${url} (${response.status})`);
+      }
+    } catch (error) {
+      finalBrokenList.push({
+        website: url[i],
+        value: "broken",
+      });
+      console.log(`Broken link found: ${url} (${error.response.status})`);
+    }
+  }
+};
+
+const geturls = async () => {
+  await axios
+    .get(url, {
+      "Content-Type": "application/xml; charset=utf-8",
+    })
+    .then((response) => response.data.toString())
+    .then((res) => {
+      const parser = new xml2js.Parser({ explicitArray: false });
+      parser.parseString(res, (err, result) => {
+        result.urlset.url.forEach((element) => {
+          allUrls.push(element.loc);
+        });
+      });
+    });
+
+  //findCanonicalTags(allUrls);
+  getH1(allUrls);
+  //findBrokenLinks(allUrls);
+};
+
+geturls();

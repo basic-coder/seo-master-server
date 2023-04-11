@@ -4,9 +4,9 @@ const path = require('path')
 
 exports.h1Tags = async (url) => {
   let finalH1List = [];
-  // for (let i = 0; i < url.length; i++) {
-    const extension = path.extname(url[i]);
-    if (extension == ".html") {
+   for (let i = 0; i < url.length; i++) {
+    //const extension = path.extname(url[i]);
+    // if (extension == ".html") {
       await axios
         .get(url[i])
         .then((response) => {
@@ -24,7 +24,7 @@ exports.h1Tags = async (url) => {
         .catch((error) => {
           //console.error(`Error fetching website ${url[i]}: ${error}`);
         });
-    }
-  // }
+    // }
+   }
   return finalH1List
 };

@@ -10,6 +10,17 @@ exports.Canonical301 = async (url) => {
         .get(url[i], { maxRedirects: 0 })
         .then((res) => {
           console.log("Status Code:", res.status);
+
+          const $ = cheerio.load(res.data);
+          const numCanonicals = $('link[rel="canonical"]').length;
+
+          console.log(numCanonicals);
+          finalCanonicalList.push({
+            website: url[i],
+            redirectedUrl: "no redirection",
+            canonicalCount: numCanonicals,
+            status: "200",
+          });
         })
         .catch((err) => {
           try {
@@ -29,8 +40,9 @@ exports.Canonical301 = async (url) => {
                     console.log(canonicalTag.length);
                     finalCanonicalList.push({
                       website: url[i],
-                    redirectedUrl: redirectedUrl,
+                      redirectedUrl: redirectedUrl,
                       canonicalCount: canonicalTag.length,
+                      status: "301",
                     });
                     console.log("Canonical Tag:", canonicalTag.length);
                   } else {
@@ -41,10 +53,20 @@ exports.Canonical301 = async (url) => {
                   console.error("Failed to fetch redirected URL:", err.message);
                 });
             } else {
+              finalCanonicalList.push({
+                website: url[i],
+                redirectedUrl: "no redirection",
+                canonicalCount: "no count",
+                status: err.response.status,
+              });
               console.log("This URL is not being redirected.");
             }
           } catch (error) {
-            console.log(error);
+            finalCanonicalList.push({
+              website: url[i],
+              status: "no status"
+            });
+            console.log(error.response);
           }
         });
     }

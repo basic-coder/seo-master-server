@@ -34,7 +34,7 @@ exports.Canonical = async(url) =>{
           .catch((error) => {
             finalCanonicalList.push({
               website: url[i],
-              status: err.response.status,
+              status: error.response.status,
             });
              console.error(`Error fetching website ${url[i]}: ${error}`);
           });

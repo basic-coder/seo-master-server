@@ -423,23 +423,23 @@ exports.CanonicalReportFunc = async (req, res, next) => {
     const allUrls = await getAllUrls(url);
     const canonicalTagReport = await Canonical(allUrls);
 
-    const headerRow = Object.keys(canonicalTagReport[0]).join(",") + "\n";
+    // const headerRow = Object.keys(canonicalTagReport[0]).join(",") + "\n";
 
-    // Create the data rows
-    const dataRows = canonicalTagReport
-      .map((obj) => {
-        return Object.values(obj).join(",") + "\n";
-      })
-      .join("");
+    // // Create the data rows
+    // const dataRows = canonicalTagReport
+    //   .map((obj) => {
+    //     return Object.values(obj).join(",") + "\n";
+    //   })
+    //   .join("");
 
     // Combine the header row and data rows into the final CSV string
-    const csvString = headerRow + dataRows;
+    //const csvString = headerRow + dataRows;
 
     // Write the CSV string to a file
-    fs.writeFile("data.csv", csvString, (err) => {
-      if (err) throw err;
-      console.log("File saved!");
-    });
+    // fs.writeFile("tataCanonical.csv", csvString, (err) => {
+    //   if (err) throw err;
+    //   console.log("File saved!");
+    // });
 
     res.status(200).json({ canonicalTagReport: canonicalTagReport });
   } catch (error) {
@@ -462,11 +462,11 @@ exports.h1TagReportFunc = async (req, res, next) => {
 
 exports.BrokenLinkReportFunc = async (req, res, next) => {
   try {
-    const url = req.body;
+     const {url} = req.body;
     const allUrls = await getAllUrls(url);
     const BrokenLinksReport = await BrokenLinks(allUrls);
 
-    res.status(200).json({ brokenLinksReport: BrokenLinksReport });
+    res.status(200).json({ brokenLinksReport: BrokenLinksReport});
   } catch (error) {
     // res.status(500).json({"message":"internal server error"})
     console.log(error);
@@ -492,23 +492,23 @@ exports.Canonical301ReportFunc = async (req, res, next) => {
     const allUrls = await getAllUrls(url);
     const Canonical301Report = await Canonical301(allUrls);
 
-    const headerRow = Object.keys(Canonical301Report[0]).join(",") + "\n";
+   // const headerRow = Object.keys(Canonical301Report[0]).join(",") + "\n";
 
     // Create the data rows
-    const dataRows = Canonical301Report
-      .map((obj) => {
-        return Object.values(obj).join(",") + "\n";
-      })
-      .join("");
+    // const dataRows = Canonical301Report
+    //   .map((obj) => {
+    //     return Object.values(obj).join(",") + "\n";
+    //   })
+    //   .join("");
 
     // Combine the header row and data rows into the final CSV string
-    const csvString = headerRow + dataRows;
+    //const csvString = headerRow + dataRows;
 
     // Write the CSV string to a file
-    fs.writeFile("tata.csv", csvString, (err) => {
-      if (err) throw err;
-      console.log("File saved!");
-    });
+    // fs.writeFile("tataCanonical.csv", csvString, (err) => {
+    //   if (err) throw err;
+    //   console.log("File saved!");
+    // });
 
     res.status(200).json({ Canonical301: Canonical301Report });
   } catch (error) {

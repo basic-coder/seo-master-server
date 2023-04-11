@@ -3,7 +3,7 @@ const xml2js = require('xml2js')
 
 exports.getAllUrls = async (url) => {
     const allUrls = [];
-  await axios
+    await axios
     .get(url, {
       "Content-Type": "application/xml; charset=utf-8",
     })

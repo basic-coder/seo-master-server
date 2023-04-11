@@ -1,6 +1,6 @@
 {
     "version":2,
     "name":"seo-master-server",
-    "builds": [{"src":"server.js","use":"@versel/node"}],
+    "builds": [{"src":"server.js","use":"@vercel/node"}],
     "routes": [{"src":"/(.*)","dest":"/server.js"}]
 }

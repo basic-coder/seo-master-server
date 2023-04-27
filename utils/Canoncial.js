@@ -32,10 +32,22 @@ exports.Canonical = async(url) =>{
             }
           })
           .catch((error) => {
-            finalCanonicalList.push({
-              website: url[i],
-              status: error.response.status,
-            });
+            try {
+              if(error.response.status){
+                finalCanonicalList.push({
+                  website: url[i],
+                  status: error.response.status,
+                });
+              }else{
+                console.log(error.response);
+              }   
+            } catch (error) {
+              finalCanonicalList.push({
+                website: url[i],
+                status: error.response,
+              });
+            }
+              
              console.error(`Error fetching website ${url[i]}: ${error}`);
           });
       }

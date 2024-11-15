@@ -57,7 +57,7 @@ exports.Canonical301 = async (url) => {
                 website: url[i],
                 redirectedUrl: "no redirection",
                 canonicalCount: "no count",
-                status: err.response.status,
+                status: err?.response?.status,
               });
               console.log("This URL is not being redirected.");
             }
@@ -66,7 +66,7 @@ exports.Canonical301 = async (url) => {
               website: url[i],
               status: "no status"
             });
-            console.log(error.response);
+            console.log(error?.response);
           }
         });
     }

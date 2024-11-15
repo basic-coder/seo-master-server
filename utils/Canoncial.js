@@ -16,35 +16,35 @@ exports.Canonical = async(url) =>{
   
             finalCanonicalList.push({
               website: url[i],
-              status: response.status,
+              status: response?.status,
               h1Count: numCanonicals,
             });
   
-            // console.log(
-            //   `The website ${url[i]} has ${numCanonicals} canonical tags`
-            // );
+            console.log(
+              `The website ${url[i]} has ${numCanonicals} canonical tags`
+            );
              console.log(i);
   
             if (numCanonicals != 1) {
-              // console.log(
-              //   `The website ${url[i]} has ${numCanonicals} canonical tags`
-              // );
+              console.log(
+                `The website ${url[i]} has ${numCanonicals} canonical tags`
+              );
             }
           })
           .catch((error) => {
             try {
-              if(error.response.status){
+              if(error?.response?.status){
                 finalCanonicalList.push({
                   website: url[i],
-                  status: error.response.status,
+                  status: error?.response?.status,
                 });
               }else{
-                console.log(error.response);
+                console.log(error?.response);
               }   
             } catch (error) {
               finalCanonicalList.push({
                 website: url[i],
-                status: error.response,
+                status: error?.response,
               });
             }
               

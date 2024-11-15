@@ -18,11 +18,11 @@ exports.h1Tags = async (url) => {
             h1Count: numH1Tags,
           });
 
-          //console.log(numH1Tags);
-          //console.log(`The website ${url[i]} has ${numH1Tags} h1 tags`);
+          console.log(numH1Tags);
+          console.log(`The website ${url[i]} has ${numH1Tags} h1 tags`);
         })
         .catch((error) => {
-          //console.error(`Error fetching website ${url[i]}: ${error}`);
+          console.error(`Error fetching website ${url[i]}: ${error}`);
         });
     // }
    }

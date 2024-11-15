@@ -30,7 +30,7 @@ exports.searchWordInWebPages = async (word,urls) =>{
                 //     "status": err.response.status
                 // })
             }
-          console.error(`Error fetching ${url}: ${err.message}`);
+          console.error(`Error fetching ${url}: ${err?.message}`);
         }
     }
 

@@ -7,19 +7,19 @@ exports.BrokenLinks = async(url) =>{
     try {
       let response = await axios.head(url[i]);
 
-      if (response.status < 400) {
+      if (response?.status < 400) {
         finalBrokenList.push({
           website: url[i],
           value: "success",
         });
-        //  console.log(`success link: ${url[i]} (${response.status})`);
+          console.log(`success link: ${url[i]} (${response?.status})`);
       }
     } catch (error) {
       finalBrokenList.push({
         website: url[i],
         value: "broken",
       });
-     // console.log(`Broken link found: ${url[i]} (${error.response.status})`);
+     console.log(`Broken link found: ${url[i]} (${error?.response?.status})`);
     }
   }
   return finalBrokenList
